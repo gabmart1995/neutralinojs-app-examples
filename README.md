@@ -1,6 +1,6 @@
 # Neutralino JS
 
-Aplicacion de ejemplo con [Neutralino JS](https://neutralino.js.org/), ejercicio para conocer el funcionamiento
+Aplicaciones de ejemplo con [Neutralino JS](https://neutralino.js.org/), ejercicio para conocer el funcionamiento
 de la libreria, que es una alternativa, mas ligera que [electron](https://electronjs.org) para el desarrollo
 de aplicaciones de escritorio.
 

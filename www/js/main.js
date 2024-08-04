@@ -86,8 +86,7 @@ Neutralino.events.on("windowClose", () => Neutralino.app.exit());
                 // si el siguiente es un numero y no es ultimo caracter
                 // contatena el string o es un digito decimal
                 while (
-                    (((i + 1) < operation.length) && 
-                    !isNaN(operation[i + 1])) || 
+                    (((i + 1) < operation.length) && !isNaN(operation[i + 1])) || 
                     (operation[i + 1] === '.') // en caso de que llegue decimal
                 ) {
                     // console.log(i);
@@ -116,7 +115,7 @@ Neutralino.events.on("windowClose", () => Neutralino.app.exit());
                     exit.push(stackOperators.pop());
                 }
 
-                stack.pop(); // elimina el parentesis abierto del stack
+                stackOperators.pop(); // elimina el parentesis abierto del stack
                 
                 continue;
             }
@@ -178,7 +177,7 @@ Neutralino.events.on("windowClose", () => Neutralino.app.exit());
      * genera la salida con la expresion en notacion polaca inversa
      * @param {string[]} rpn evalua los stacks y salida de la ordenacion
      */
-    const evaluateRPN = rpn => {
+    const evaluateRPN = rpn => { 
         /** @type {number[]} */
         const stack = [];
 
