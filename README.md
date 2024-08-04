@@ -5,6 +5,6 @@ de la libreria, que es una alternativa, mas ligera que [electron](https://electr
 de aplicaciones de escritorio.
 
 ### Que se diseño 
-- Una calculadora
+- Una calculadora básica
 
 Introduccion a la libreria, api basicas y proceso de despliuegue
