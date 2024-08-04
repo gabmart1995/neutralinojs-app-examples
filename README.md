@@ -1,3 +1,10 @@
-# neutralinojs-minimal
+# Neutralino JS
 
-The default template for a Neutralinojs app. It's possible to use your favorite frontend framework by using [these steps](https://neutralino.js.org/docs/getting-started/using-frontend-libraries).
+Aplicacion de ejemplo con Neutralino JS, ejercicio para conocer el funcionamiento
+de la libreria, que es una alternativa, mas ligera que electron para el desarrollo
+de aplicaciones de escritorio.
+
+### Que se diseño 
+- Una calculadora
+
+Introduccion a la libreria, api basicas y proceso de despliuegue
