@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/neutralinojs/neutralinojs/main/schemas/neutralino.config.schema.json",
-  "applicationId": "js.neutralino.sample",
+  "applicationId": "calculator.neutralino.js",
   "version": "1.0.0",
   "defaultMode": "window",
   "port": 0,
@@ -41,7 +41,7 @@
       "fullScreen": false,
       "alwaysOnTop": false,
       "icon": "/www/icons/appIcon.png",
-      "enableInspector": true,
+      "enableInspector": false,
       "borderless": false,
       "maximize": false,
       "hidden": false,

@@ -1,0 +1,40 @@
+{
+  "applicationId": "contacts.neutralino.js",
+  "version": "1.0.0",
+  "defaultMode": "window",
+  "documentRoot": "/react-src/public/",
+  "url": "/",
+  "enableServer": true,
+  "enableNativeAPI": true,
+  "nativeAllowList": [
+    "app.*"
+  ],
+  "modes": {
+    "window": {
+      "title": "contacts-app",
+      "width": 800,
+      "height": 500,
+      "minWidth": 400,
+      "minHeight": 200,
+      "icon": "/react-src/public/icons/appIcon.png",
+      "enableInspector": true,
+      "exitProcessOnClose": true,
+      "maximize": true
+    }
+  },
+  "cli": {
+    "binaryName": "contacts-app",
+    "resourcesPath": "/react-src/public/",
+    "extensionsPath": "/extensions/",
+    "binaryVersion": "5.3.0",
+    "clientVersion": "5.3.0",
+    "frontendLibrary": {
+      "patchFile": "/react-src/public/index.html",
+      "devUrl": "http://localhost:8080",
+      "projectPath": "/react-src/",
+      "initCommand": "yarn install",
+      "devCommand": "yarn start",
+      "buildCommand": "yarn build-prod"
+    }
+  }
+}
