@@ -5,6 +5,10 @@
 /bin
 /dist
 
+01-calculator/bin/
+
+
+
 
 # Neutralinojs client (minified)
 neutralino.js
