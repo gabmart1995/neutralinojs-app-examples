@@ -3,11 +3,12 @@ const path = require('path');
 
 const config = {
   entry: [
-    './src/index.tsx'
+    './src/index.js'
   ],
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
   resolve: { // incluye las extensiones a importar
     extensions: ['.js', '.jsx', '.ts', '.tsx']
@@ -41,7 +42,10 @@ const config = {
     ],
   },
   devServer: {
-    contentBase: './public',
+    contentBase: path.resolve(__dirname, 'public'),
+    historyApiFallback: {
+      index: 'index.html'
+    }
   }
 };
 
