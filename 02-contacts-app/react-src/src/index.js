@@ -2,8 +2,6 @@
 import React from 'react';
 import ReactDom from 'react-dom/client';
 
-import './style.css';
-
 import {init} from '@neutralinojs/lib';
 import App from './App';
 
