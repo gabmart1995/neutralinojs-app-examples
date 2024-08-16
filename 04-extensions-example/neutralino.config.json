@@ -1,0 +1,40 @@
+{
+  "applicationId": "js.neutralino.zero",
+  "version": "1.0.0",
+  "defaultMode": "window",
+  "documentRoot": "/www/",
+  "url": "/",
+  "enableServer": true,
+  "enableNativeAPI": true,
+  "enableExtensions": true,
+  "nativeAllowList": [
+    "app.*"
+  ],
+  "modes": {
+    "window": {
+      "title": "04-extensions-example",
+      "width": 800,
+      "height": 500,
+      "minWidth": 400,
+      "minHeight": 200,
+      "icon": "/www/icon.png",
+      "enableInspector": true
+    }
+  },
+  "cli": {
+    "binaryName": "04-extensions-example",
+    "resourcesPath": "/www/",
+    "extensionsPath": "/extensions/",
+    "clientLibrary": "/www/neutralino.js",
+    "binaryVersion": "5.3.0",
+    "clientVersion": "5.3.0"
+  },
+  "extensions": [
+    {
+      "id": "js.neutralino.sampleextension",
+      "commandLinux": "${NL_PATH}/extensions/binary/linux/ext_bin",
+      "commandDarwin": "${NL_PATH}/extensions/binary/mac/ext_bin",
+      "commandWindows": "${NL_PATH}/extensions/binary/win/ext_bin.exe"
+    }
+  ]
+}

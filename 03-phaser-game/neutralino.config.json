@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "defaultMode": "window",
   "port": 0,
-  "documentRoot": "/resources/",
+  "documentRoot": "/www/",
   "url": "/",
   "enableServer": true,
   "enableNativeAPI": true,
@@ -40,7 +40,7 @@
       "center": true,
       "fullScreen": false,
       "alwaysOnTop": false,
-      "icon": "/resources/static/images/appIcon.png",
+      "icon": "/www/static/images/appIcon.png",
       "enableInspector": false,
       "borderless": false,
       "maximize": false,
@@ -76,7 +76,7 @@
     "binaryName": "03-phaser-game",
     "resourcesPath": "/resources/",
     "extensionsPath": "/extensions/",
-    "clientLibrary": "/resources/static/js/neutralino.js",
+    "clientLibrary": "/www/static/js/neutralino.js",
     "binaryVersion": "5.3.0",
     "clientVersion": "5.3.0"
   }

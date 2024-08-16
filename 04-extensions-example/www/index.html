@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello Neutralinojs</title>
+    <style>
+      body { background-color: white; }
+    </style>
+  </head>
+  <body>
+    it's works
+    <script src="/neutralino.js"></script>
+    <script>
+        let extension = 'js.neutralino.sampleextension';
+        let event = 'helloExtension';
+        /*let data = {
+          testValue: 10
+        }*/
+
+        let data = 'test';
+
+        (async () => {
+          try {
+            console.log(Neutralino.extensions)
+            Neutralino.extensions.dispatch(extension, event, data);
+            
+          } catch (error) {
+            console.log(error);
+            
+          }
+        })();
+        
+        /*const input = document.getElementById('input');
+        const output = document.getElementById('output');
+
+        const socket = new WebSocket('ws://localhost:8080/echo');
+
+        socket.onopen = function() {
+            output.innerHTML += 'Status: Connected\n';
+        }
+
+        socket.onmessage = function(event) {
+            output.innerHTML += 'Server: ' + event.data + '\n';
+        }
+
+        function send() {
+            socket.send(input.value);
+            input.value = '';
+        }*/
+    </script>
+  </body>
+</html>
