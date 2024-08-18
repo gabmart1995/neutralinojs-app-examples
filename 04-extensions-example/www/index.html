@@ -9,26 +9,40 @@
   </head>
   <body>
     it's works
-    <script src="/neutralino.js"></script>
+    <script src="neutralino.js"></script>
     <script>
-        let extension = 'js.neutralino.sampleextension';
-        let event = 'helloExtension';
-        /*let data = {
-          testValue: 10
-        }*/
+        Neutralino.init();
 
-        let data = 'test';
+        let extension = 'js.neutralino.sampleextension';
+        let event = 'eventToExtension';
+        let data = 'Hello extension';
+        //let data = {testValue: 10}
+
+        
+        Neutralino.events.on("windowClose", () => {
+            Neutralino.app.exit();
+        });
 
         (async () => {
           try {
-            console.log(Neutralino.extensions)
-            Neutralino.extensions.dispatch(extension, event, data);
+
+            // verificamos el listado de extensiones en la app
+            let stats = await Neutralino.extensions.getStats();
             
+            /*console.log({
+              message: 'Extension conectada con éxito',
+              stats
+            });*/
+
+            // procedemos a mandar el mensaje a la extension
+            await Neutralino.extensions.dispatch(extension, event);
+          
           } catch (error) {
-            console.log(error);
-            
+            console.error(error);
+
           }
         })();
+
         
         /*const input = document.getElementById('input');
         const output = document.getElementById('output');

@@ -8,7 +8,8 @@
   "enableNativeAPI": true,
   "enableExtensions": true,
   "nativeAllowList": [
-    "app.*"
+    "app.*",
+    "extensions.*"
   ],
   "modes": {
     "window": {
@@ -32,9 +33,9 @@
   "extensions": [
     {
       "id": "js.neutralino.sampleextension",
-      "commandLinux": "${NL_PATH}/extensions/binary/linux/ext_bin",
-      "commandDarwin": "${NL_PATH}/extensions/binary/mac/ext_bin",
-      "commandWindows": "${NL_PATH}/extensions/binary/win/ext_bin.exe"
+      "commandLinux": "${NL_PATH}/extensions/sampleextension/bin/linux/ext_bin",
+      "commandDarwin": "${NL_PATH}/extensions/sampleextension/bin/mac/ext_bin",
+      "commandWindows": "${NL_PATH}/extensions/sampleextension/bin/win/ext_bin.exe"
     }
   ]
 }
