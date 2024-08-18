@@ -64,7 +64,7 @@ dentro de una funcion asincrona para comprobar la conexion:
             })
 
             // mandamos a la extension
-            await Neutralino.extensions.dispatch(extension, event, {testValue: 10});
+            await Neutralino.extensions.dispatch(extension, event, 'hello extension!!');
         
         } catch (error) {
             console.error(error);
