@@ -15,7 +15,7 @@
 
         let extension = 'js.neutralino.sampleextension';
         let event = 'eventToExtension';
-        let data = 'Hello extension';
+        // let data = 'Hello extension';
         //let data = {testValue: 10}
 
         
@@ -35,7 +35,9 @@
             });*/
 
             // procedemos a mandar el mensaje a la extension
-            await Neutralino.extensions.dispatch(extension, event);
+            await Neutralino.extensions.dispatch(extension, event, {testValue: 10});
+            await Neutralino.extensions.dispatch(extension, event, {testValue: 20});
+            await Neutralino.extensions.dispatch(extension, event, {testValue: 30});
           
           } catch (error) {
             console.error(error);

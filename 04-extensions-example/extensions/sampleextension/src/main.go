@@ -20,50 +20,55 @@ type NeutralinoAuth struct {
 }
 
 type Message struct {
-	Event string `json:"event"`
-	// Data  interface{} `json:"data"`
+	Event string      `json:"event"`
+	Data  interface{} `json:"data"`
 }
 
 var auth NeutralinoAuth
 
-/*func logger(message string) {
-	logLine := fmt.Sprintf("[%s] %s", auth.NlExtensionId, message)
-	fmt.Println(logLine)
-}*/
-
-func sendMessage(message Message) {
-	fmt.Println("go websocket: ", message)
-
-	if message.Event == "eventToExtension" {
-		// logger(message.Data)
-		fmt.Println("evento hallado")
-	}
-}
-
 func handleSocket(conn *websocket.Conn, done chan struct{}) {
+	// una vez finalizada cierra el canal
 	defer close(done)
+	var messageSocket Message
 
 	// agregamos un bucle inifinito para mantener la
-	// conexion
+	// conexion y leer los mensajes de neutralino
 	for {
-		var messageSocket Message
 		_, message, err := conn.ReadMessage()
 
 		if err != nil {
-			//log.Println("read:", err)
+			// log.Println("read:", err)
 			return
 		}
 
 		// en este punto se recibe los datos del socket
-		// se serializa y se manda
-
+		// se serializa a un struct
 		if err := json.Unmarshal(message, &messageSocket); err != nil {
 			panic(err)
 		}
 
-		// fmt.Println(messageSocket)
+		filterEvents(messageSocket)
+	}
+}
 
-		sendMessage(messageSocket)
+// imprime los logs en la consola
+func logger(message Message) {
+
+	// aplicamos assercion para determinar los tipos
+	// {testValue: 10}
+	testValue := message.Data.(map[string]interface{})["testValue"].(float64)
+
+	// construimos el log
+	logLine := fmt.Sprintf("[%s]: %v", auth.NlExtensionId, testValue)
+	fmt.Println(logLine)
+}
+
+func filterEvents(message Message) {
+	// fmt.Println("go websocket: ", message)
+
+	// filtramos los eventos
+	if message.Event == "eventToExtension" {
+		logger(message)
 	}
 }
 
@@ -108,6 +113,7 @@ func main() {
 	// establecemos un canal de comunicacion
 	done := make(chan struct{})
 
+	// goroutine que maneja la recepcion de datos por el Websocket
 	go handleSocket(conn, done)
 
 	// establecemos un select
@@ -117,6 +123,7 @@ func main() {
 			return
 
 		case <-interrupt:
+
 			// Cleanly close the connection by sending a close message and then
 			// waiting (with timeout) for the server to close the connection.
 			err := conn.WriteMessage(
