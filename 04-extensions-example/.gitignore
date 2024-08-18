@@ -4,7 +4,6 @@
 # Neutralinojs binaries and builds
 /bin
 /dist
-/extensions/sampleextension/bin
 
 # Neutralinojs client (minified)
 neutralino.js
