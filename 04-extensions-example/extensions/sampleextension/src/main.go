@@ -7,8 +7,10 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"reflect"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 )
 
@@ -24,51 +26,66 @@ type Message struct {
 	Data  interface{} `json:"data"`
 }
 
-var auth NeutralinoAuth
-
-func handleSocket(conn *websocket.Conn, done chan struct{}) {
-	// una vez finalizada cierra el canal
-	defer close(done)
-	var messageSocket Message
-
-	// agregamos un bucle inifinito para mantener la
-	// conexion y leer los mensajes de neutralino
-	for {
-		_, message, err := conn.ReadMessage()
-
-		if err != nil {
-			// log.Println("read:", err)
-			return
-		}
-
-		// en este punto se recibe los datos del socket
-		// se serializa a un struct
-		if err := json.Unmarshal(message, &messageSocket); err != nil {
-			panic(err)
-		}
-
-		filterEvents(messageSocket)
-	}
+type SenderMessage struct {
+	Id          string  `json:"id"`
+	Method      string  `json:"method"`
+	AccessToken string  `json:"accessToken"`
+	Data        Message `json:"data"`
 }
 
-// imprime los logs en la consola
-func logger(message Message) {
+var auth NeutralinoAuth
 
-	// aplicamos assercion para determinar los tipos
-	// {testValue: 10}
-	testValue := message.Data.(map[string]interface{})["testValue"].(float64)
-
-	// construimos el log
-	logLine := fmt.Sprintf("[%s]: %v", auth.NlExtensionId, testValue)
+func logger(message string) {
+	logLine := fmt.Sprintf("[%s]: %s", auth.NlExtensionId, message)
 	fmt.Println(logLine)
 }
 
-func filterEvents(message Message) {
+func filterEvents(conn *websocket.Conn, message Message) {
+	// logs de eventos
 	// fmt.Println("go websocket: ", message)
 
-	// filtramos los eventos
-	if message.Event == "eventToExtension" {
-		logger(message)
+	// verificamos el tipo de dato
+	isStringData := reflect.ValueOf(message.Data).Kind().String() == "string"
+
+	if isStringData {
+		if message.Event == "eventToExtension" {
+			logger(message.Data.(string))
+
+			// mandamos el mensaje de vuelta
+			messageSend := SenderMessage{
+				Id:          uuid.NewString(),
+				Method:      "app.broadcast",
+				AccessToken: auth.NlToken,
+				Data: Message{
+					Event: "eventFromExtension",
+					Data:  "Hello app!!",
+				},
+			}
+
+			bytes, err := json.Marshal(&messageSend)
+
+			if err != nil {
+				panic(err)
+			}
+
+			writerSocket, err := conn.NextWriter(websocket.TextMessage)
+
+			if err != nil {
+				fmt.Println("encoding error")
+				return
+			}
+
+			_, err = writerSocket.Write(bytes)
+
+			if err != nil {
+				panic(err)
+			}
+
+			// cerramos el writeSocket
+			if err := writerSocket.Close(); err != nil {
+				panic(err)
+			}
+		}
 	}
 }
 
@@ -77,7 +94,7 @@ func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	// leemos la informacion del proceso STDIN
+	// spawneamos la informacion del proceso STDIN
 	scanner := bufio.NewScanner(os.Stdin)
 
 	// extrae el JSON del proceso de entrada de neutralino
@@ -114,9 +131,32 @@ func main() {
 	done := make(chan struct{})
 
 	// goroutine que maneja la recepcion de datos por el Websocket
-	go handleSocket(conn, done)
+	go func() {
+		// una vez finalizada cierra el canal
+		defer close(done)
+		var messageSocket Message
 
-	// establecemos un select
+		// agregamos un bucle inifinito para mantener la
+		// conexion y leer los mensajes de neutralino
+		for {
+			_, message, err := conn.ReadMessage()
+
+			if err != nil {
+				// log.Println("read:", err)
+				return
+			}
+
+			// en este punto se recibe los datos del socket
+			// se serializa a un struct
+			if err := json.Unmarshal(message, &messageSocket); err != nil {
+				panic(err)
+			}
+
+			filterEvents(conn, messageSocket)
+		}
+	}()
+
+	// establecemos un select que controla la conexion con el SO.
 	for {
 		select {
 		case <-done:

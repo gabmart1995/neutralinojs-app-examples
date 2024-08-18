@@ -62,6 +62,9 @@ dentro de una funcion asincrona para comprobar la conexion:
                 message: 'Extension conectada con éxito',
                 stats
             })
+
+            // mandamos a la extension
+            await Neutralino.extensions.dispatch(extension, event, {testValue: 10});
         
         } catch (error) {
             console.error(error);

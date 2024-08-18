@@ -8,61 +8,59 @@
     </style>
   </head>
   <body>
-    it's works
+    <button>test extension</button>
+    <p>
+      Comprueba en la consola web y la del sistema operativo 
+      el flujo de la extension
+    </p>
+    <p>
+      Las extensiones permite extender la funcionalidad de neutralino
+      con cualquier lenguaje, en caso en que la funcionalidad del 
+      API nativa, no sea suficiente.
+    </p>
     <script src="neutralino.js"></script>
     <script>
-        Neutralino.init();
-
-        let extension = 'js.neutralino.sampleextension';
-        let event = 'eventToExtension';
-        // let data = 'Hello extension';
-        //let data = {testValue: 10}
-
         
-        Neutralino.events.on("windowClose", () => {
-            Neutralino.app.exit();
-        });
-
-        (async () => {
+        async function send() {
           try {
-
-            // verificamos el listado de extensiones en la app
-            let stats = await Neutralino.extensions.getStats();
-            
-            /*console.log({
-              message: 'Extension conectada con éxito',
-              stats
-            });*/
-
             // procedemos a mandar el mensaje a la extension
-            await Neutralino.extensions.dispatch(extension, event, {testValue: 10});
-            await Neutralino.extensions.dispatch(extension, event, {testValue: 20});
-            await Neutralino.extensions.dispatch(extension, event, {testValue: 30});
-          
+            // await Neutralino.extensions.dispatch(extension, event, {testValue: 10});
+            await Neutralino.extensions.dispatch(extension, event, 'Hello extension!!');
+            // await Neutralino.extensions.dispatch(extension, event, {testValue: 30});
+            
           } catch (error) {
             console.error(error);
 
           }
-        })();
-
-        
-        /*const input = document.getElementById('input');
-        const output = document.getElementById('output');
-
-        const socket = new WebSocket('ws://localhost:8080/echo');
-
-        socket.onopen = function() {
-            output.innerHTML += 'Status: Connected\n';
         }
 
-        socket.onmessage = function(event) {
-            output.innerHTML += 'Server: ' + event.data + '\n';
-        }
+        Neutralino.init();
 
-        function send() {
-            socket.send(input.value);
-            input.value = '';
-        }*/
+        let extension = 'js.neutralino.sampleextension';
+        let event = 'eventToExtension';
+
+        Neutralino.events.on("windowClose", () => {
+            Neutralino.app.exit();
+        });
+
+        // capturamos el evento desde nuestra extension
+        Neutralino.events.on("eventFromExtension", event => {
+          // console.log(event);
+          console.log(`INFO: Test extension said: ${event.detail}`);
+        });
+
+        // estatus de las extensiones
+        Neutralino.extensions.getStats()
+          .then(stats => {
+            // verificamos si la extension esta conectada con IPC Websocket
+            if (!stats.connected.includes(extension)) return;
+
+            const button = document.querySelector('button');
+
+            if (button) button.addEventListener('click', send);
+          })
+          .catch(console.error);
+
     </script>
   </body>
 </html>
