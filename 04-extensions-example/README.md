@@ -50,21 +50,23 @@ siguente estructura para realizar la conexion:
 ```
 
 ## Como evaluar si la conexion con la extension se realizo correctamente
-Desde la consola del navegador puedes colocar la siguente bloque de codigo
-dentro de una funcion asincrona:
+Desde la codigo del lado navegador puedes colocar la siguente bloque de codigo
+dentro de una funcion asincrona para comprobar la conexion:
 
 ```
-    try {
-        // verificamos el listado de extensiones en la app
-        let stats = await Neutralino.extensions.getStats();
-        console.log({
-            message: 'Extension conectada con éxito',
-            stats
-        })
-    
-    } catch (error) {
-        console.error(error);
+    (async () => {
+        try {
+            // verificamos el listado de extensiones en la app
+            let stats = await Neutralino.extensions.getStats();
+            console.log({
+                message: 'Extension conectada con éxito',
+                stats
+            })
+        
+        } catch (error) {
+            console.error(error);
 
-    }
+        }
+    })();
 ```
 
