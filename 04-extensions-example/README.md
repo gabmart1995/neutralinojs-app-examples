@@ -1,6 +1,6 @@
 # Desarrollo de extensiones para el Api Neutralino
 
-Mi primera extension desarrollada con GO, para neutralino JS
+Primera extension desarrollada con GO, para neutralino JS
 el objetivo es conectar el API de desarrollo personalizado en 
 cualquier lenguaje de programacion.
 
