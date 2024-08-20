@@ -6,5 +6,9 @@ de aplicaciones de escritorio.
 
 ### Que se diseño 
 - Una calculadora básica
+- Agenda de contactos
+- Un juego en 2D
+- Como crear Extensiones (escrito en [GO](https://go.dev)) e integrar nuevas funcionalidades, fuera del API de neutralino
 
-Introduccion a la libreria, api basicas y proceso de despliuegue
+Introduccion a la libreria, api basicas, conocimientos avanzados 
+y proceso de despliuegue
