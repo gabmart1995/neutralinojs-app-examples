@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Task's App</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <h1>Mi lista de tareas</h1>
+    <p>
+      Para ingresar una tarea debes incluir un titulo, una description y salvar los cambios
+    </p>
+    <form id="create-task">
+      <p>
+        <label for="title">Titulo:</label>
+        <input type="text" name="title" id="title" />
+      </p>
+      <p>
+        <label for="description">Descripción:</label>
+        <textarea id="description" name="description"></textarea>
+      </p>
+      <p>
+        <label for="completed">Completado</label>
+        <input type="checkbox" name="completed" id="completed" />
+      </p>
+      <button type="submit">Guardar cambios</button>
+      <button type="reset">Cancelar</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Id:</th>
+          <th>Titulo:</th>
+          <th>Descripcion</th>
+          <th>Completado:</th>
+          <th>Creado en:</th>
+          <th>Actualizado en:</th>
+        </tr>
+      </thead>
+      <tbody id="tasks"></tbody>
+    </table>
+
+    <!-- Neutralino.js client. This file is gitignored, 
+        because `neu update` typically downloads it.
+        Avoid copy-pasting it. 
+        -->
+    <script src="/js/neutralino.js"></script>
+    <!-- Your app's source files -->
+    <script src="/js/main.js"></script>
+  </body>
+</html>
