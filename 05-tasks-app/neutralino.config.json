@@ -12,7 +12,8 @@
   "enableExtensions": true,
   "nativeAllowList": [
     "app.*",
-    "extensions.*"
+    "extensions.*",
+    "os.*"
   ],
   "globalVariables": {
     "TEST1": "Hello",
@@ -39,7 +40,7 @@
       "icon": "/resources/icons/appIcon.png",
       "enableInspector": true,
       "borderless": false,
-      "maximize": false,
+      "maximize": true,
       "hidden": false,
       "resizable": true,
       "exitProcessOnClose": false

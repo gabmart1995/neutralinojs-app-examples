@@ -1,3 +1,4 @@
+/** nombre de la extension */
 const EXTENSION_NAME = 'js.neutralino.sqlite3extension';
 
 /*
@@ -9,8 +10,22 @@ const onWindowClose = () => {
         .catch(console.error);
 }
 
+/** genera las fechas */
+const generateDate = () => {
+    const date = new Date();
+    let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate().toString();
+    
+    let mounth = date.getMonth() + 1;
+    mounth = mounth < 10 ? '0' + mounth : mounth.toString(); 
 
-// app
+    let year = date.getFullYear().toString();
+
+    const dateString = (`${mounth}-${day}-${year}`);
+
+    return dateString
+}
+
+/** inicio de la app */
 const main = () => {
     const regex = {
         TEXT: /^[A-Za-z0-9\s]*$/       
@@ -40,16 +55,7 @@ const main = () => {
             return;
         }
 
-        const date = new Date();
-        let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate().toString();
-        
-        let mounth = date.getMonth() + 1;
-        mounth = mounth < 10 ? '0' + mounth : mounth.toString(); 
-
-        let year = date.getFullYear().toString();
-
-        const dateString = (`${mounth}-${day}-${year}`);
-
+        const dateString = generateDate();
         const SQL = `INSERT INTO tasks VALUES (NULL, "${data.title}", "${data.description}", ${data.completed}, "${dateString}", "${dateString}");`
         
         // mandamos a la base de datos
@@ -100,24 +106,105 @@ Neutralino.events.on('tasks', event => {
     if (!Array.isArray(tasks)) {
         tasksBody.innerHTML = (`
             <tr>
-                <td colspan="6" style="text-align: center">No se hallaron registros</td>
+                <td colspan="7" style="text-align: center">
+                    No se hallaron registros
+                </td>
             <tr>    
         `)
 
         return;
     }
 
-    tasksBody.innerHTML = tasks.map(task => (`
-        <tr>
-            <td>${task.id}</td>
-            <td>${task.title}</td>
-            <td>${task.description}</td>
-            <td>${task.completed === 0 ? 'No completado' : 'Completado'}</td>
-            <td>${task.created_at}</td>
-            <td>${task.updated_at}</td>
-        </tr>    
-    `))
+    tasksBody.innerHTML = tasks.map(task => {
+        return (`
+            <tr>
+                <td>${task.id}</td>
+                <td>${task.title}</td>
+                <td>${task.description}</td>
+                <td>
+                    <input 
+                        type="checkbox" 
+                        ${task.completed === 1 ? 'checked' : ''} 
+                        class="check"
+                    />
+                </td>
+                <td>${task.created_at}</td>
+                <td>${task.updated_at}</td>
+                <td>
+                    <button class="delete">Eliminar</button>
+                </td>
+            </tr>    
+        `)
+    })
     .join('');
+
+    // añadimos los eventos
+    const inputs = document.querySelectorAll('.check');
+    if (inputs.length === 0) return;
+
+    const buttonDelete = document.querySelectorAll('.delete');
+    if (buttonDelete.length === 0) return;
+
+    inputs.forEach(input => {
+        input.addEventListener('change', event => {
+            const { checked } = event.target;
+
+            const idTask = event.target.parentNode.parentNode.children[0].innerText;
+            const completed = checked ? 1 : 0;
+            const dateString = generateDate();
+
+            const SQL = (`UPDATE tasks SET completed=${completed}, updated_at="${dateString}" WHERE id=${idTask}`);
+
+            Neutralino.extensions.dispatch(EXTENSION_NAME, 'write', SQL)
+                .then(() => {
+                    const SQL = 'SELECT * FROM tasks';
+                
+                    // solicitamos la lectura de BD
+                    return Neutralino.extensions.dispatch(
+                        EXTENSION_NAME, 
+                        'read', 
+                        SQL
+                    );
+                })
+                .then(() => {
+                    // console.log('consulta realizada con exito');
+                    // no va a funcionar no soporta el entono xfce                    
+                    return Neutralino.os.showNotification(
+                        'Success', 
+                        'Consulta realizada con éxito'
+                    );
+                })
+                .catch(console.error);
+        });
+    });
+
+    buttonDelete.forEach(button => {
+        button.addEventListener('click', event => {
+            const idTask = event.target.parentNode.parentNode.children[0].innerText;
+            const SQL = `DELETE FROM tasks WHERE id = ${idTask}`;
+
+            Neutralino.extensions.dispatch(EXTENSION_NAME, 'write', SQL)
+                .then(() => {
+                    const SQL = 'SELECT * FROM tasks';
+                
+                    // solicitamos la lectura de BD
+                    return Neutralino.extensions.dispatch(
+                        EXTENSION_NAME, 
+                        'read', 
+                        SQL
+                    );
+                })
+                .then(() => {
+                    // console.log('consulta realizada con exito');
+                    // no va a funcionar no soporta el entono xfce                    
+                    return Neutralino.os.showNotification(
+                        'Success', 
+                        'Consulta realizada con éxito'
+                    );
+                })
+                .catch(console.error);
+        });
+    })
 });
 
 // iniciamos las extensiones
@@ -131,5 +218,4 @@ Neutralino.extensions.getStats()
         throw new Error('la extension de base de datos falló')
     })
     .then(main)
-    .catch(console.error)
-
+    .catch(console.error);

@@ -110,7 +110,9 @@ func filterEvents(conn *websocket.Conn, message Message) {
 		sql := message.Data.(string)
 
 		if message.Event == "write" {
-			config.Write(sql)
+			if err := config.Write(sql); err != nil {
+				panic(err)
+			}
 		}
 
 		if message.Event == "read" {
