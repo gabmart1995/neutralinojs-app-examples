@@ -77,77 +77,57 @@ func filterEvents(conn *websocket.Conn, message Message) {
 
 	// logs de eventos
 	// fmt.Println("go websocket: ", message)
-	if message.Event == "dbConnect" && message.Data == nil {
-		if err := config.Connect(); err != nil {
-			panic(err)
-		}
 
-		logger("conexion a bd exitosa")
+	// eventos de conexion
+	if message.Data == nil {
+		if message.Event == "dbConnect" {
+			if err := config.Connect(); err != nil {
+				panic(err)
+			}
 
-		sendMessage(Message{
-			Event: "dbConnectSuccessful",
-			Data: map[string]interface{}{
-				"message": "conexion a bd exitosa",
-				"ok":      true,
-			},
-		})
-	}
+			logger("conexion a bd exitosa")
 
-	if message.Event == "execute" && reflect.ValueOf(message.Data).Kind().String() == "string" {
-		logger("ejecutando consulta")
-	}
-
-	if message.Event == "dbDisconnect" && message.Data == nil {
-		if err := config.Disconnect(); err != nil {
-			panic(err)
-		}
-
-		logger("desconexion a bd exitosa")
-	}
-
-	// verificamos el tipo de dato
-	/*isStringData := reflect.ValueOf(message.Data).Kind().String() == "string"
-
-	if isStringData {
-		if message.Event == "eventToExtension" {
-			logger(message.Data.(string))
-
-			// mandamos el mensaje de vuelta
-			messageSend := SenderMessage{
-				Id:          uuid.NewString(),
-				Method:      "app.broadcast",
-				AccessToken: auth.NlToken,
-				Data: Message{
-					Event: "eventFromExtension",
-					Data:  "Hello app!!",
+			sendMessage(Message{
+				Event: "dbConnectSuccessful",
+				Data: map[string]interface{}{
+					"message": "conectado",
+					"ok":      true,
 				},
-			}
-
-			bytes, err := json.Marshal(&messageSend)
-
-			if err != nil {
-				panic(err)
-			}
-
-			writerSocket, err := conn.NextWriter(websocket.TextMessage)
-
-			if err != nil {
-				fmt.Println("encoding error")
-				return
-			}
-
-			_, err = writerSocket.Write(bytes)
-
-			if err != nil {
-				panic(err)
-			}
-
-			// cerramos el writeSocket
-			if err := writerSocket.Close(); err != nil {
-				panic(err)
-			}
+			})
 		}
-	}*/
+
+		if message.Event == "dbDisconnect" && message.Data == nil {
+			if err := config.Disconnect(); err != nil {
+				panic(err)
+			}
+
+			logger("desconexion a bd exitosa")
+		}
+	}
+
+	// eventos de base de datos
+	if reflect.ValueOf(message.Data).Kind().String() == "string" {
+		sql := message.Data.(string)
+
+		if message.Event == "write" {
+			config.Write(sql)
+		}
+
+		if message.Event == "read" {
+			data, err := config.Read(sql)
+
+			if err != nil {
+				panic(err)
+			}
+
+			// fmt.Println(data)
+
+			sendMessage(Message{
+				Event: "tasks",
+				Data:  data,
+			})
+		}
+	}
 }
 
 func main() {

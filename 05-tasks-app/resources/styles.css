@@ -6,3 +6,7 @@ table {
     margin-top: 20px;
 }
 
+#state {
+    color: var(--state, red);
+}
+
