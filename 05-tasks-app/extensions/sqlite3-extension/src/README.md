@@ -1,15 +1,15 @@
-# Sample extension
+# SQLite extension
 
-Este es un pequeño ejemplo para recibir un mensaje desde el proceso principal
-del frontend a la extension y viceversa. Codigo fuente escrito en GO, utiliza
-el principio de los Websockets y la lectura de procesos para obtener la variables
-de conexion.<br /><br />
+Extension que permite realizar una conexion a una base de datos SQLite
+y ejecutar cualquier tipo de consulta. Herramienta construido con GO<br /><br />
 
 Este proceso utiliza el patron de programacion de mensajes, utilizando eventos 
-para comunicarse por el proceso principal
+para comunicarse por el proceso principal, para leer y escribir en base de 
+datos
 
 ## libreria utilizada
 github.com/gorilla/websocket
+github.com/mattn/go-sqlite3
 
 
 

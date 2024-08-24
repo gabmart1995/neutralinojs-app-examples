@@ -1,15 +1,6 @@
-# neutralinojs-minimal
+# Aplicacion de tareas
 
-The default template for a Neutralinojs app. It's possible to use your favorite frontend framework by using [these steps](https://neutralino.js.org/docs/getting-started/using-frontend-libraries).
+Aplicacion donde se pone en practica la conexion de las extensiones en una aplicacion
+de neutralinoJS, la extension permite realizar una conexion a una base de datos SQLite
+para extraer datos de una aplicacion de tareas.
 
-## Contributors
-
-[![Contributors](https://contrib.rocks/image?repo=neutralinojs/neutralinojs-minimal)](https://github.com/neutralinojs/neutralinojs-minimal/graphs/contributors)
-
-## License
-
-[MIT](LICENSE)
-
-## Icon credits
-
-- `trayIcon.png` - Made by [Freepik](https://www.freepik.com) and downloaded from [Flaticon](https://www.flaticon.com)
