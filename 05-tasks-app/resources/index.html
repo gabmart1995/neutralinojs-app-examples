@@ -1,47 +1,68 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <base href="/" />
+    <meta charset="UTF-8" />
     <title>Task's App</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="w3.css" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Mi lista de tareas</h1>
-    <small>Conexion con base de datos: <span id="state"></span></small>
-    <p>
-      Para ingresar una tarea debes incluir un titulo, una description y salvar los cambios
-    </p>
-    <form id="create-task">
-      <p>
-        <label for="title">Titulo:</label>
-        <input type="text" name="title" id="title" />
+    <main class="w3-container">
+      <div class="d-flex justify-content-between">
+        <h1>Mi lista de tareas</h1>
+        <div>
+          <img src="icons/appIcon.png" alt="" width="65">
+          <img src="icons/go-logo.png" alt="go-logo" class="sqlite-logo" style="margin-left: 20px; margin-right: 20px;" />
+          <img src="icons/sqlite.jpeg" alt="sqlite-logo" class="sqlite-logo" />
+        </div>
+      </div>
+      <small>Estado: <span id="state"></span></small>
+      <p class="w3-center">
+        Para ingresar una tarea debes incluir un titulo, una description y salvar los cambios
       </p>
-      <p>
-        <label for="description">Descripción:</label>
-        <textarea id="description" name="description"></textarea>
-      </p>
-      <p>
-        <label for="completed">Completado</label>
-        <input type="checkbox" name="completed" id="completed" />
-      </p>
-      <button type="submit">Guardar cambios</button>
-      <button type="reset">Cancelar</button>
-    </form>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Id:</th>
-          <th>Titulo:</th>
-          <th>Descripcion</th>
-          <th>Completado:</th>
-          <th>Creado en:</th>
-          <th>Actualizado en:</th>
-          <th>Acciones:</th>
-        </tr>
-      </thead>
-      <tbody id="tasks"></tbody>
-    </table>
+      <form id="create-task">
+        <div class="w3-row-padding">
+          <div class="w3-col m6 s12">
+            <p>
+              <label class="w3-text-black" for="title">Titulo:</label>
+              <input class="w3-input w3-border w3-round-large" type="text" name="title" id="title" />
+            </p>
+          </div>
+          <div class="w3-col m6 s12">
+            <p>
+              <label class="w3-text-black" for="description">Descripción:</label>
+              <input class="w3-input w3-border w3-round-large" id="description" name="description" />
+            </p>
+          </div>
+          <div class="w3-col m6 s12">
+            <p>
+              <input class="w3-check" type="checkbox" name="completed" id="completed" />
+              <label for="completed" class="w3-margin-left w3-text-black">Completado</label>
+            </p>
+          </div>
+        </div>
+        
+        <button type="submit" class="w3-button w3-green">Guardar cambios</button>
+        <button type="reset" class="w3-button w3-gray">Cancelar</button>
+      </form>
+      <div class="w3-responsive">
+        <table class="w3-table w3-striped w3-bordered">
+          <thead>
+            <tr class="w3-indigo">
+              <th>Id:</th>
+              <th>Titulo:</th>
+              <th>Descripción:</th>
+              <th>Completado:</th>
+              <th>Creado en:</th>
+              <th>Actualizado en:</th>
+              <th>Acciones:</th>
+            </tr>
+          </thead>
+          <tbody id="tasks"></tbody>
+        </table>
+      </div>
+    </main>
 
     <!-- Neutralino.js client. This file is gitignored, 
         because `neu update` typically downloads it.

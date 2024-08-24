@@ -10,3 +10,15 @@ table {
     color: var(--state, red);
 }
 
+.sqlite-logo {
+    width: 100px;
+    height: 40px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}

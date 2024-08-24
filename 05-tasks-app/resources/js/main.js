@@ -73,6 +73,7 @@ const main = () => {
             })
             .then(() => {
                 console.log('consulta realizada con exito');
+                form.reset();
             })
             .catch(console.error);
     });
@@ -125,13 +126,13 @@ Neutralino.events.on('tasks', event => {
                     <input 
                         type="checkbox" 
                         ${task.completed === 1 ? 'checked' : ''} 
-                        class="check"
+                        class="check w3-check"
                     />
                 </td>
                 <td>${task.created_at}</td>
                 <td>${task.updated_at}</td>
                 <td>
-                    <button class="delete">Eliminar</button>
+                    <button class="delete w3-button w3-red">Eliminar</button>
                 </td>
             </tr>    
         `)
@@ -203,7 +204,7 @@ Neutralino.events.on('tasks', event => {
                     );
                 })
                 .catch(console.error);
-        });
+        }, {once: true});
     })
 });
 
