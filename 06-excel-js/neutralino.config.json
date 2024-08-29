@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/neutralinojs/neutralinojs/main/schemas/neutralino.config.schema.json",
-  "applicationId": "js.neutralino.sample",
+  "applicationId": "js.neutralino.excel",
   "version": "1.0.0",
   "defaultMode": "window",
   "port": 0,
@@ -9,10 +9,9 @@
   "enableServer": true,
   "enableNativeAPI": true,
   "tokenSecurity": "one-time",
-  "enableExtensions": true,
+  "enableExtensions": false,
   "nativeAllowList": [
     "app.*",
-    "extensions.*",
     "os.*"
   ],
   "globalVariables": {
@@ -29,9 +28,9 @@
   },
   "modes": {
     "window": {
-      "title": "05-tasks-app",
+      "title": "06-excel-js",
       "width": 800,
-      "height": 500,
+      "height": 400,
       "minWidth": 400,
       "minHeight": 200,
       "center": true,
@@ -40,7 +39,7 @@
       "icon": "/www/icons/appIcon.png",
       "enableInspector": false,
       "borderless": false,
-      "maximize": true,
+      "maximize": false,
       "hidden": false,
       "resizable": true,
       "exitProcessOnClose": false
@@ -70,19 +69,11 @@
     }
   },
   "cli": {
-    "binaryName": "05-tasks-app",
+    "binaryName": "06-excel-js",
     "resourcesPath": "/www/",
     "extensionsPath": "/extensions/",
     "clientLibrary": "/www/js/neutralino.js",
     "binaryVersion": "5.3.0",
     "clientVersion": "5.3.0"
-  },
-  "extensions": [
-        {
-            "id": "js.neutralino.sqlite3extension",
-            "commandLinux": "${NL_PATH}/extensions/sqlite3-extension/bin/linux/sqlite3-ext",
-            "commandDarwin": "${NL_PATH}/extensions/sqlite3-extension/bin/mac/sqlite3-ext",
-            "commandWindows": "${NL_PATH}/extensions/sqlite3-extension/bin/win/sqlite3-ext.exe"
-        }
-    ]
+  }
 }
