@@ -10,6 +10,7 @@ de aplicaciones de escritorio.
 - Un juego en 2D
 - Como crear Extensiones (escrito en [GO](https://go.dev)) e integrar nuevas funcionalidades, fuera del API de neutralino
 - Lista de tareas (utilizando una extension para base de datos)
+- Un pequeño clon de excel
 
 Introduccion a la libreria, api basicas, conocimientos avanzados 
 y proceso de despliuegue
