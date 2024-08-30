@@ -74,7 +74,7 @@
   },
   "cli": {
     "binaryName": "03-phaser-game",
-    "resourcesPath": "/resources/",
+    "resourcesPath": "/www/",
     "extensionsPath": "/extensions/",
     "clientLibrary": "/www/static/js/neutralino.js",
     "binaryVersion": "5.3.0",
