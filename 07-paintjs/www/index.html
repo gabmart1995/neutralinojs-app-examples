@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Paint JS</title>
+    </head>
+    <body>
+        <style>
+            *, *::before, *::after {
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Arial';
+                background: #222;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            h1 {
+                color: #09f;
+                font-size: 12px;
+                font-weight: 600;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            h1 span {
+                margin-left: 4px;
+            }
+
+            h1 img {
+                width: 16px;
+                height: auto;
+            }
+
+            canvas {
+                background: white;
+            }
+
+            header {
+                background: silver;
+                grid-area: header;
+            }
+
+            header button {
+                border: 0;
+                background: transparent;
+            }
+
+            header button:hover {
+                box-shadow: 
+                    1px 1px black,
+                    inset -1px -1px gray,
+                    inset 1px 1px white
+            }
+
+            footer {
+                grid-area: footer;
+                background: silver;
+                padding: 4px;
+            }
+
+            #container {
+                border: 1px solid #808080;
+                display: grid;
+                grid-template-areas:
+                    'header header header'
+                    'aside main main'
+                    'footer footer footer';
+            }
+
+            main {
+                grid-area: main;
+                padding: 16px;
+            }
+
+            aside {
+                grid-area: aside;
+                background: silver;
+                width: 52px;
+                padding-top: 2px;
+            }
+
+            aside nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            aside button {
+                width: 24px;
+                height: 24px;
+                background: #bdbdbd url('icons/draw.png') no-repeat center;
+                border: 1.5px solid #eee;
+                border-right-color: #000;
+                border-bottom-color: #000;
+            }
+
+            aside button.active {
+                border-color: #000;
+                border-right-color: #eee;
+                border-bottom-color: #eee;
+                background-color: #eee;
+            }
+
+            #erase-btn {
+                background-image: url('icons/erase.png');
+            }
+
+            #rectangle-btn {
+                background-image: url('icons/rectangle.png');
+            }
+
+            #ellipse-btn {
+                background-image: url('icons/ellipse.png');
+            }
+            
+            #picker-btn {
+                background-image: url('icons/picker.png');
+                display: none;
+            }
+
+            
+            #clear-btn {
+                background-image: url('icons/trash.png');
+                background-size: 20px;
+            }
+        </style>
+        <h1>
+            <img src="icons/paint.png" />
+            <span>Paint JS</span>
+        </h1>
+
+        <!-- app -->
+        <div id="container">
+            <header>
+                <button>File</button>
+                <button>Edit</button>
+                <button>View</button>
+                <button>Options</button>
+                <button>Help</button>
+            </header>
+            <aside>
+                <nav>
+                    <button id="draw-btn" title="Pincel"></button>
+                    <button id="erase-btn" title="Borrar"></button>
+                    <button id="rectangle-btn" title="Rectangulo"></button>
+                    <button id="ellipse-btn" title="Ellipse"></button>
+                    <button id="picker-btn" title="Picker"></button>
+                    <button id="clear-btn" title="Borrar todo"></button>
+                </nav>
+            </aside>
+            <main>
+                <canvas id="canvas" width="300" height="200"></canvas>
+            </main>
+            <footer>
+                <input type="color" id="color-picker" value="#000000" />
+            </footer>    
+        </div>
+        <script src="js/neutralino.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
