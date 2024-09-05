@@ -5,12 +5,13 @@ de la libreria, que es una alternativa, mas ligera que [electron](https://electr
 de aplicaciones de escritorio.
 
 ### Que se diseño 
-- Una calculadora básica
-- Agenda de contactos
-- Un juego en 2D
-- Como crear Extensiones (escrito en [GO](https://go.dev)) e integrar nuevas funcionalidades, fuera del API de neutralino
-- Lista de tareas (utilizando una extension para base de datos)
-- Un pequeño clon de excel
+- Una calculadora básica (Vanilla JS)
+- Agenda de contactos (React JS y Webpack)
+- Un juego en 2D (Phazer)
+- Como crear Extensiones (Vanilla JS y GO) (escrito en [GO](https://go.dev)) e integrar nuevas funcionalidades, fuera del API de neutralino
+- Lista de tareas (creando una extension para SQLite, escrito en GO). Extendiendo funcionalidad del punto anterior.
+- Un pequeño clon de excel.
+- Un clon de Paint, usando JS
 
 Introduccion a la libreria, api basicas, conocimientos avanzados 
 y proceso de despliuegue
