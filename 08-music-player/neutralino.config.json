@@ -44,7 +44,7 @@
       "icon": "/www/icons/appIcon.png",
       "enableInspector": true,
       "borderless": false,
-      "maximize": false,
+      "maximize": true,
       "hidden": false,
       "resizable": true,
       "exitProcessOnClose": false

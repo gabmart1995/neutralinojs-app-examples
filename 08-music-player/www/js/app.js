@@ -35,10 +35,12 @@ class Player {
             elementsUI['track'].innerHTML = (`No track`);
             return;
         }
+
+        this.createPlayList();
     }
 
     createPlayList() {
-        elementsUI.list.innerHTML = '';
+        elementsUI['list'].innerHTML = '';
 
         this.playlist.forEach(song => {
             const div = document.createElement('div');
@@ -46,10 +48,10 @@ class Player {
             div.innerHTML = song.title;
 
             div.addEventListener('click', () => {
-                console.log(song);
+                this.skipTo(this.playlist.indexOf(song));
             });
 
-            (elementsUI['list']).appendChild(div);
+            elementsUI['list'].appendChild(div);
         });
     }
 
@@ -74,10 +76,10 @@ class Player {
                 ],
                 html5: true,
                 onplay: function() {
-                    wave.start();
                     
+
                     elementsUI['duration'].innerHTML = self.formatTime(
-                        Math.round(data.howl.duration)
+                        Math.round(data.howl.duration())
                     );
 
                     requestAnimationFrame(self.step.bind(self));
@@ -88,7 +90,9 @@ class Player {
                     elementsUI['pauseBtn'].style.display = 'block';
                 },
                 onload: function() {
-
+                    wave.container.style.display = 'block';
+                    elementsUI['bar'].style.display = 'none';
+                    elementsUI['loading'].style.display = 'none';
                 },
                 onend: function() {
                     wave.container.style.display = 'none';
@@ -185,13 +189,9 @@ class Player {
         this.play(index);
     }
 
-    volumen() {
-
-    }
-
     /** 
      * establece la posicion del elemento reproducido 
-     * @param {number}
+     * @param {number} percentage
      * */
     seek(percentage) {
         const sound = this.playlist[this.index].howl;
@@ -221,10 +221,54 @@ class Player {
 
         return (`${minutes}:${secs < 10 ? '0': ''}${secs}`);
     }
+
+    /** muestra la lista de reproduccion */
+    togglePlayList() {
+        const playlist = elementsUI['playlist'];
+        const display = (playlist.style.display === 'block') ? 'none' : 'block';
+
+        setTimeout(
+            () => playlist.style.display = display,
+            (display === 'block') ? 0 : 500
+        );
+        
+        // ajustamos la animacion
+        playlist.className = (display === 'block') ? 'fadein' : 'fadeout';
+    }
+
+    /** muestra la barra del volumen */
+    toggleVolume() {
+        const voulume = elementsUI['volume'];
+        const display = (voulume.style.display === 'block') ? 'none' : 'block';
+
+        setTimeout(
+            () => voulume.style.display = display,
+            (display === 'block') ? 0 : 500
+        );
+        
+        // ajustamos la animacion
+        voulume.className = (display === 'block') ? 'fadein' : 'fadeout';
+    }
+
+    /**
+     * Establece el volumen del reproductor
+     * @param {number} value 
+     */
+    volume(value) {
+        // actualiza el volumen global en cada una de las instancias
+        // de howler
+        Howler.volume(value);
+
+        // actualiza el slider
+        let barWidth = (value * 90) / 100;
+
+        elementsUI['barFull'].style.width = `${barWidth * 100}%`;
+        elementsUI['sliderBtn'].style.left = `${window.innerWidth * barWidth + window.innerWidth * 0.05 - 25}px`;
+    }
 }
 
 /**
- * Actualiza la altura de la animacion de la onda
+ * funcion responsive que actualiza el tamano de la onda dependiendo del dispositivo
  */
 function resize() {
     let height = window.innerHeight * 0.3;
@@ -241,9 +285,11 @@ function resize() {
     wave.container.style.margin = -(height / 2) + 'px auto';
 }
 
+
 function main() {
     const elements = ['track', 'timer', 'duration', 'playBtn', 'pauseBtn', 'prevBtn', 'nextBtn', 'playlistBtn', 'volumeBtn', 'progress', 'bar', 'waveform', 'loading', 'playlist', 'list', 'volume', 'barEmpty', 'barFull', 'sliderBtn'];
     
+    // obtenemos los elementos DOM
     elements.forEach(element => elementsUI[element] = document.getElementById(element));
 
     /** creamos la instancia del reproductor */
@@ -265,6 +311,18 @@ function main() {
         }
     ]);
 
+    const move = event => {
+        if (window.sliderDown) {
+            let x = event.clientX || event.touches[0].clientX;
+            let startX = window.innerWidth * 0.05;
+            let layerX = x - startX;
+    
+            let percentage = Math.min(1, Math.max(0, layerX / parseFloat(elementsUI['barEmpty'].scrollWidth)));
+            player.volume(percentage);
+        }
+    };
+
+    // eventos
     elementsUI['playBtn'].addEventListener('click', () => {
         player.play();
     });
@@ -281,18 +339,65 @@ function main() {
         player.skip('next');
     });
 
+    elementsUI['waveform'].addEventListener('click', event => {
+        player.seek(event.clientX / window.innerWidth);
+    });
+
+    elementsUI['playlistBtn'].addEventListener('click', () => {
+        player.togglePlayList();
+    });
+
+    elementsUI['playlist'].addEventListener('click', () => {
+        player.togglePlayList();
+    });
+
+    elementsUI['volumeBtn'].addEventListener('click', () => {
+        player.toggleVolume();
+    });
+
+    elementsUI['volume'].addEventListener('click', () => {
+        player.toggleVolume();
+    });
+
+    // inicializamos los eventos para habilitar el volumen slider
+    elementsUI['barEmpty'].addEventListener('click', event => {
+        const percentage = event.layerX / parseFloat(elementsUI['barEmpty'].scrollWidth);
+        player.volume(percentage);
+    });
+
+    elementsUI['sliderBtn'].addEventListener('mousedown', () => {
+        window.sliderDown = true;
+    });
+
+    elementsUI['sliderBtn'].addEventListener('touchstart', () => {
+        window.sliderDown = true;
+    });
+
+    elementsUI['volume'].addEventListener('mouseup', () => {
+        window.sliderDown = false;
+    });
+
+    elementsUI['volume'].addEventListener('touchend', () => {
+        window.sliderDown = false;
+    });
+
+    elementsUI['volume'].addEventListener('mousemove', move);
+    elementsUI['volume'].addEventListener('touchmove', move);
+
+    // wave animation
     wave = new SiriWave({
         container: elementsUI['waveform'],
         width: window.innerWidth,
         height: window.innerHeight * 0.3,
         cover: true,
-        speed: 0.05,
+        speed: 0.03,
         amplitude: 0.7,
         frequency: 2
     });
 
-    window.addEventListener('resize', resize);
+    wave.start();
 
+    window.addEventListener('resize', resize);
     resize();
 }
 
