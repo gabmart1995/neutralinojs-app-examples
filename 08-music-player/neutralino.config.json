@@ -35,7 +35,7 @@
     "window": {
       "title": "08-music-player",
       "width": 800,
-      "height": 500,
+      "height": 800,
       "minWidth": 400,
       "minHeight": 200,
       "center": true,
