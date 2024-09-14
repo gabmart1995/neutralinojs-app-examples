@@ -12,6 +12,7 @@ de aplicaciones de escritorio.
 - Lista de tareas (creando una extension para SQLite, escrito en GO). Extendiendo funcionalidad del punto anterior.
 - Un pequeño clon de excel.
 - Un clon de Paint, usando JS
+- Un reproductor de musica
 
 Introduccion a la libreria, api basicas, conocimientos avanzados 
 y proceso de despliuegue
