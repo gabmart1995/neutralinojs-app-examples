@@ -71,8 +71,8 @@ class Player {
         if (!data.howl) {
             data.howl = new Howl({
                 src: [
-                    `./audio/${data.file}.webm`,
-                    `./audio/${data.file}.mp3`
+                    `audio/${data.file}.webm`, // soporte de audio en la web
+                    `audio/${data.file}.mp3`
                 ],
                 html5: true,
                 onplay: function() {
@@ -307,6 +307,11 @@ function main() {
         {
             title: 'Running Out',
             file: 'running_out',
+            howl: null
+        },
+        {
+            title: 'Denise Julia BAD',
+            file: 'denise_julia_bad',
             howl: null
         }
     ]);

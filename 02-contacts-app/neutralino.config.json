@@ -23,7 +23,7 @@
     }
   },
   "cli": {
-    "binaryName": "contacts-app",
+    "binaryName": "02-contacts-app",
     "resourcesPath": "/react-src/public/",
     "extensionsPath": "/extensions/",
     "binaryVersion": "5.3.0",

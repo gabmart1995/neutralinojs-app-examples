@@ -75,9 +75,7 @@ func filterEvents(conn *websocket.Conn, message Message) {
 				return
 			}
 
-			_, err = writerSocket.Write(bytes)
-
-			if err != nil {
+			if _, err = writerSocket.Write(bytes); err != nil {
 				panic(err)
 			}
 
