@@ -9,7 +9,8 @@
   "enableExtensions": true,
   "nativeAllowList": [
     "app.*",
-    "extensions.*"
+    "extensions.*",
+    "os.*"
   ],
   "modes": {
     "window": {
