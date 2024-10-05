@@ -1,11 +1,12 @@
 /** nombre de la extension */
 const EXTENSION_NAME = 'js.neutralino.sqlite3extension';
+const {extensions, init, os, events} = Neutralino;
 
 /*
     Function to handle the window close event by gracefully exiting the Neutralino application.
 */
 const onWindowClose = () => {
-    Neutralino.extensions.dispatch(EXTENSION_NAME, 'dbDisconnect', null)
+    extensions.dispatch(EXTENSION_NAME, 'dbDisconnect', null)
         .then(() => Neutralino.app.exit())
         .catch(console.error);
 }
@@ -60,12 +61,12 @@ const main = () => {
         
         // mandamos a la base de datos
         // si inserta correctamente leemos los registros
-        Neutralino.extensions.dispatch(EXTENSION_NAME, 'write', SQL)
+        extensions.dispatch(EXTENSION_NAME, 'write', SQL)
             .then(() => {
                 const SQL = 'SELECT * FROM tasks';
                 
                 // solicitamos la lectura de BD
-                return Neutralino.extensions.dispatch(
+                return extensions.dispatch(
                     EXTENSION_NAME, 
                     'read', 
                     SQL
@@ -79,16 +80,16 @@ const main = () => {
     });
 
     // consultamos si existen registros de tareas existentes
-    Neutralino.extensions.dispatch(EXTENSION_NAME, 'read', 'SELECT * FROM tasks');
+    extensions.dispatch(EXTENSION_NAME, 'read', 'SELECT * FROM tasks');
 }
 
 // Initialize Neutralino
-Neutralino.init();
+init();
 
 // Register event listeners
-Neutralino.events.on("windowClose", onWindowClose);
+events.on("windowClose", onWindowClose);
 
-Neutralino.events.on('dbConnectSuccessful', event => {
+events.on('dbConnectSuccessful', event => {
     //console.log(event);
 
     const stateContainer = document.querySelector('#state');
@@ -98,7 +99,7 @@ Neutralino.events.on('dbConnectSuccessful', event => {
     stateContainer.style = '--state: green';
 });
 
-Neutralino.events.on('tasks', event => {
+events.on('tasks', event => {
     const tasks = event.detail;
 
     const tasksBody = document.querySelector('#tasks');
@@ -156,12 +157,12 @@ Neutralino.events.on('tasks', event => {
 
             const SQL = (`UPDATE tasks SET completed=${completed}, updated_at="${dateString}" WHERE id=${idTask}`);
 
-            Neutralino.extensions.dispatch(EXTENSION_NAME, 'write', SQL)
+            extensions.dispatch(EXTENSION_NAME, 'write', SQL)
                 .then(() => {
                     const SQL = 'SELECT * FROM tasks';
                 
                     // solicitamos la lectura de BD
-                    return Neutralino.extensions.dispatch(
+                    return extensions.dispatch(
                         EXTENSION_NAME, 
                         'read', 
                         SQL
@@ -170,7 +171,7 @@ Neutralino.events.on('tasks', event => {
                 .then(() => {
                     // console.log('consulta realizada con exito');
                     // no va a funcionar no soporta el entono xfce                    
-                    return Neutralino.os.showNotification(
+                    return os.showNotification(
                         'Success', 
                         'Consulta realizada con éxito'
                     );
@@ -184,12 +185,12 @@ Neutralino.events.on('tasks', event => {
             const idTask = event.target.parentNode.parentNode.children[0].innerText;
             const SQL = `DELETE FROM tasks WHERE id = ${idTask}`;
 
-            Neutralino.extensions.dispatch(EXTENSION_NAME, 'write', SQL)
+            extensions.dispatch(EXTENSION_NAME, 'write', SQL)
                 .then(() => {
                     const SQL = 'SELECT * FROM tasks';
                 
                     // solicitamos la lectura de BD
-                    return Neutralino.extensions.dispatch(
+                    return extensions.dispatch(
                         EXTENSION_NAME, 
                         'read', 
                         SQL
@@ -198,7 +199,7 @@ Neutralino.events.on('tasks', event => {
                 .then(() => {
                     // console.log('consulta realizada con exito');
                     // no va a funcionar no soporta el entono xfce                    
-                    return Neutralino.os.showNotification(
+                    return os.showNotification(
                         'Success', 
                         'Consulta realizada con éxito'
                     );
@@ -210,10 +211,10 @@ Neutralino.events.on('tasks', event => {
 
 // iniciamos las extensiones
 // junto a la conexion a la base de datos
-Neutralino.extensions.getStats()
+extensions.getStats()
     .then(stats => {
         if (stats.connected.includes(EXTENSION_NAME)) {
-            return Neutralino.extensions.dispatch(EXTENSION_NAME, 'dbConnect', null);
+            return extensions.dispatch(EXTENSION_NAME, 'dbConnect', null);
         } 
 
         throw new Error('la extension de base de datos falló')
