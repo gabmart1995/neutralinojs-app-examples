@@ -41,15 +41,13 @@ func logger(message string) {
 
 func filterEvents(conn *websocket.Conn, message Message) {
 	// logs de eventos
-	fmt.Println("go websocket: ", message)
+	// fmt.Println("go websocket: ", message)
 
 	// verificamos el tipo de dato
 	// isStringData := reflect.ValueOf(message.Data).Kind().String() == "string"
 
 	if message.Data == nil {
 		if message.Event == "getUserDirectory" {
-			logger(message.Data.(string))
-
 			userDirectory, err := os.UserHomeDir()
 
 			if err != nil {
@@ -120,7 +118,7 @@ func main() {
 		auth.NlConnectToken,
 	)
 
-	fmt.Println(url)
+	// fmt.Println(url)
 
 	// inicializamos el client websocket
 	// generamos una conexion usando un dial
@@ -130,7 +128,7 @@ func main() {
 		log.Fatal("dial err:", err)
 	}
 
-	fmt.Println(conn)
+	//fmt.Println(conn)
 
 	defer conn.Close()
 
