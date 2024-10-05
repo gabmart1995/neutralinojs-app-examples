@@ -35,7 +35,7 @@ siguente estructura para realizar la conexion:
             "id": "js.neutralino.sampleextension",
             "commandLinux": "${NL_PATH}/extensions/sampleextension/bin/linux/ext_bin",
             "commandDarwin": "${NL_PATH}/extensions/sampleextension/bin/mac/ext_bin",
-            "commandWindows": "${NL_PATH}/extensions/sampleextension/bin/win/ext_bin.exe"
+            "commandWindows": "${NL_PATH}\\extensions\\sampleextension\\bin\\win\\ext_bin.exe"
         },
         {   # en caso de utilizar un lenguaje interpretado
             "id": "js.neutralino.binaryextension",

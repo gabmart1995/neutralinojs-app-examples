@@ -55,6 +55,8 @@
         // estatus de las extensiones
         Neutralino.extensions.getStats()
           .then(stats => {
+            console.log(stats);
+            
             // verificamos si la extension esta conectada con IPC Websocket
             if (!stats.connected.includes(extension)) return;
 

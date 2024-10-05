@@ -82,7 +82,7 @@
             "id": "js.neutralino.sqlite3extension",
             "commandLinux": "${NL_PATH}/extensions/sqlite3-extension/bin/linux/sqlite3-ext",
             "commandDarwin": "${NL_PATH}/extensions/sqlite3-extension/bin/mac/sqlite3-ext",
-            "commandWindows": "${NL_PATH}/extensions/sqlite3-extension/bin/win/sqlite3-ext.exe"
+            "commandWindows": "${NL_PATH}\\extensions\\sqlite3-extension\\bin\\win\\sqlite3-ext.exe"
         }
     ]
 }

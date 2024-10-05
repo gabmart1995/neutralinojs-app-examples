@@ -115,6 +115,8 @@ func main() {
 		auth.NlConnectToken,
 	)
 
+	fmt.Println(url)
+
 	// inicializamos el client websocket
 	// generamos una conexion usando un dial
 	conn, _, err := websocket.DefaultDialer.Dial(url, nil)
@@ -122,6 +124,8 @@ func main() {
 	if err != nil {
 		log.Fatal("dial err:", err)
 	}
+
+	fmt.Println(conn)
 
 	defer conn.Close()
 
