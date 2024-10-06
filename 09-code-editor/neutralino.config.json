@@ -19,7 +19,8 @@
     "os.*",
     "debug.log",
     "extensions.*",
-    "filesystem.*"
+    "filesystem.*",
+    "storage.*"
   ],
   "globalVariables": {
     "TEST1": "Hello",

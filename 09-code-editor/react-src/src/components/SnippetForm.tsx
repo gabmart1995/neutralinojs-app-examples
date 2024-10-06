@@ -1,14 +1,42 @@
-import {os} from '@neutralinojs/lib';
+import {extensions, filesystem} from '@neutralinojs/lib';
+import {extension} from '../events';
+import { useContext, useState } from 'react';
+import { FileContext } from '../context/file_context';
 
 const SnippetForm = () => {
+    const fileContext = useContext(FileContext);
+    const [snippetName, setSnippetName] = useState('');
+
     const handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void = async event => {
         event.preventDefault();
-        await os.showMessageBox('alert', 'form submitted');
-    }
+        
+        try {
+            const homeDirectory = sessionStorage.getItem('home_directory') ?? '';
+            await extensions.dispatch(extension, 'join', [homeDirectory, 'neu-files', snippetName]);
+            
+            // esperamos un segundo y medio para que establezca el nuevo path
+            // y escriba el archivo
+            setTimeout(async () => {
+                const path = sessionStorage.getItem('path') ?? '';
+                await filesystem.writeFile(path, '');
+
+                // actualizamos los estados
+                fileContext.addSnippetName(snippetName);
+                setSnippetName('');
+                
+            }, 1500);
+            
+        } catch (error) {
+            console.log('error write');
+            console.error(error);
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit}>
             <input 
+                value={snippetName}
+                onChange={event => setSnippetName(event.target.value)}
                 type="text"
                 placeholder="write a snippet"
                 className="bg-zinc-900 w-full border-none outline-none p-4" 

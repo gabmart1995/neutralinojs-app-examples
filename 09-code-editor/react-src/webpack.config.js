@@ -1,4 +1,6 @@
 
+const MonacoEditorWebpackPlugin = require('monaco-editor-webpack-plugin');
+const { type } = require('os');
 const path = require('path');
 
 const config = {
@@ -38,8 +40,14 @@ const config = {
               'file-loader'
           ]
       },
+      // ttf files
+      {
+        test: /\.ttf$/,
+        use: ['file-loader']
+      }
     ]
   },
+  plugins: [new MonacoEditorWebpackPlugin()],
   devServer: {
     contentBase: './dist'
   }
