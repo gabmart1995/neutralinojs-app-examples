@@ -7,7 +7,7 @@ const App = () => {
     return (
         <FileProvider>
             <div className="h-screen text-white grid grid-cols-12">
-                <div className="col-span-3 bg-zinc-950">
+                <div className="col-span-3 bg-zinc-900">
                     <SnippetForm />
                     <SnippetList />
                 </div>

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 
 interface Snippet {
     code: string | null,
@@ -6,7 +6,7 @@ interface Snippet {
 }
 
 interface SnippetState {
-    snippetNames: string[],
+    snippetsNames: string[],
     selectedSnippet: Snippet | null
     addSnippetName: (name: string) => void,
     setSnippetNames: (names: string[]) => void
@@ -14,7 +14,7 @@ interface SnippetState {
 }
 
 const FileContext = createContext<SnippetState>({
-    snippetNames: [],
+    snippetsNames: [],
     selectedSnippet: null,
     addSnippetName: name => {},
     setSnippetNames: names => {},
@@ -24,14 +24,15 @@ const FileContext = createContext<SnippetState>({
 const FileProvider: React.FC<React.PropsWithChildren> = ({children}) => {
     const [snippetsNames, setSnippetNames] = useState<string[]>([]);
     const [selectedSnippet, setSelectedSnippet] = useState<Snippet | null>(null);
-
-    const providerMethods: SnippetState = {
-        snippetNames: snippetsNames,
-        selectedSnippet: selectedSnippet,
-        addSnippetName: name => setSnippetNames(state => [...state, name]),
-        setSnippetNames: names => setSnippetNames(names),
-        setSelectedSnippet: snippet => setSelectedSnippet(snippet)
-    };
+    const providerMethods: SnippetState = useMemo(() => {
+        return {
+            snippetsNames,
+            selectedSnippet,
+            addSnippetName: name => setSnippetNames(state => [...state, name]),
+            setSnippetNames: names => setSnippetNames(names),
+            setSelectedSnippet: snippet => setSelectedSnippet(snippet)
+        };
+    }, [snippetsNames, selectedSnippet]);
 
     return (
         <FileContext.Provider value={providerMethods}>

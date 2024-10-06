@@ -1,4 +1,4 @@
-import {app, init, events, extensions, storage} from '@neutralinojs/lib';
+import {app, init, events, extensions} from '@neutralinojs/lib';
 
 export const extension = 'js.neutralino.filepath';
 

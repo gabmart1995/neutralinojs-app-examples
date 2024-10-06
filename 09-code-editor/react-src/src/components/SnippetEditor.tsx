@@ -48,6 +48,8 @@ const SnippetEditor = () => {
 
     // crea la instancia del editor
     useEffect(() => {
+        // console.log({fileContext, path: sessionStorage.getItem('path')});
+
         if (!monacoContainer.current || !fileContext.selectedSnippet) return;
         
         // crea una instancia del editor
@@ -93,23 +95,22 @@ const SnippetEditor = () => {
         monacoContainer.current.addEventListener('keyup', async event => {
             if (event.ctrlKey && event.key === 's') {
                 try {
-                    console.log('aqui');
                     const contentFile = editorInstance.getValue();  
-                    
                     const homeDirectory = sessionStorage.getItem('home_directory') ?? '';
-                    await extensions.dispatch(extension, 'join', [homeDirectory, 'neu-files', fileContext.selectedSnippet]);
+                    await extensions.dispatch(
+                        extension, 
+                        'join', 
+                        [homeDirectory, 'neu-files', fileContext.selectedSnippet?.name ?? '']
+                    );
 
+                    // escribimos los archivos
                     setTimeout(async () => {
                         const path = sessionStorage.getItem('path') ?? '';
                         await filesystem.writeFile(path, contentFile);
                         
-                        console.log('notification');
-                        try {
-                            await os.showNotification('exito', 'Archivo guardado con exito');
-                        } catch (error) {
-                            console.error(error)
-                        }
-
+                        console.log('saved');
+                        
+                        await os.showNotification('exito', 'Archivo guardado con exito');
                     }, 1500);
 
                 } catch (error) {
@@ -118,7 +119,7 @@ const SnippetEditor = () => {
                 }
             }
         });
-    }, [editorInstance]);
+    }, [editorInstance, fileContext]);
 
     // validamos si existe un snippet seleccionado
     if (!fileContext.selectedSnippet) return (<div>No snippet selected</div>);

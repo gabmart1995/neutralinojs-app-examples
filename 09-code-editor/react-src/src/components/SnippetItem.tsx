@@ -13,6 +13,8 @@ const SnippetItem: React.FC<{snippetName: string}> = ({snippetName}) => {
 
             setTimeout(async () => {
                 const path = sessionStorage.getItem('path') ?? '';
+                // console.log({pathRead: path});
+                
                 const code = await filesystem.readFile(path);
 
                 fileContext.setSelectedSnippet({name: snippetName, code});
