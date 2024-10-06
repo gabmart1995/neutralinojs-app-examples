@@ -103,6 +103,7 @@ func filterEvents(conn *websocket.Conn, message Message) {
 
 	if isSliceString {
 		if message.Event == "join" {
+			logger("path join")
 
 			data := message.Data.([]interface{})
 			newRouteArray := make([]string, len(data))

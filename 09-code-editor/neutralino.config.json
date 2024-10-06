@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "defaultMode": "window",
   "port": 0,
-  "documentRoot": "/react-src/build/",
+  "documentRoot": "/react-src/dist/",
   "url": "/",
   "enableServer": true,
   "enableExtensions": true,
@@ -77,8 +77,8 @@
     }
   },
   "cli": {
-    "binaryName": "neutralino",
-    "resourcesPath": "/react-src/build/",
+    "binaryName": "snippet-code-app",
+    "resourcesPath": "/react-src/dist/",
     "extensionsPath": "/extensions/",
     "binaryVersion": "5.3.0",
     "clientVersion": "5.3.0",
@@ -88,7 +88,7 @@
         "projectPath": "/react-src/",
         "initCommand": "yarn install",
         "devCommand": "yarn start",
-        "buildCommand": "yarn build"
+        "buildCommand": "yarn run build-prod"
     }
   },
   "extensions": [
