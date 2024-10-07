@@ -13,6 +13,7 @@ de aplicaciones de escritorio.
 - Un pequeño clon de excel.
 - Un clon de Paint, usando JS
 - Un reproductor de musica
+- Un editor de snippets codigo
 
 Introduccion a la libreria, api basicas, conocimientos avanzados 
 y proceso de despliuegue
