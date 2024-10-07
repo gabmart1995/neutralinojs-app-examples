@@ -1,15 +1,20 @@
-# neutralinojs-minimal
+# Snippet Code App
 
-The default template for a Neutralinojs app. It's possible to use your favorite frontend framework by using [these steps](https://neutralino.js.org/docs/getting-started/using-frontend-libraries).
+Este es el ultimo ejercicio de creacion de aplicaciones de escritorio de neutralino js
+es el diseño de un editor de codigo utilizando todos los conocimientos aprendidos
+dentro de la libreria. 
 
-## Contributors
+### Que se aprendió
+- Ajustar un empaquetador para el proyecto
+- Integrar react typescript para contruir las interfaces del aplicación.
+- Creacion y configuración de extensiones de neutralino para el control de los path del SO
+- Utilizacion de la Api Nativa, acceso a permisos.
+- Integracion de forma manual de proyectos de frontend con neutralino.
 
-[![Contributors](https://contrib.rocks/image?repo=neutralinojs/neutralinojs-minimal)](https://github.com/neutralinojs/neutralinojs-minimal/graphs/contributors)
+### Para desarrollo
+Para iniciar con el desarrollo es necesario correr `neu update` para bajar los binarios<br />
+luego en el directorio del proyecto de react `yarn install o npm i` para construir los <br />
+node_modules y por ultimo `cd .. && neu run` para leventar en modo desarrollo.
 
-## License
-
-[MIT](LICENSE)
-
-## Icon credits
-
-- `trayIcon.png` - Made by [Freepik](https://www.freepik.com) and downloaded from [Flaticon](https://www.flaticon.com)
+### Deploy 
+`neu build` genera una carpeta compila a produccion el proyecto, desplegar y listo
