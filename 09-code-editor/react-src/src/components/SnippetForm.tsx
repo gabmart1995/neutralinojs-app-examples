@@ -2,6 +2,7 @@ import {extensions, filesystem} from '@neutralinojs/lib';
 import {extension} from '../events';
 import { useContext, useState } from 'react';
 import { FileContext } from '../context/file_context';
+import toast from 'react-hot-toast';
 
 const SnippetForm = () => {
     const fileContext = useContext(FileContext);
@@ -23,7 +24,17 @@ const SnippetForm = () => {
                 // actualizamos los estados
                 fileContext.addSnippetName(snippetName);
                 setSnippetName('');
-                
+
+                // notificamos al usuario
+                toast.success('Snippet guardado', {
+                    duration: 2000,
+                    position: 'bottom-right',
+                    style: {
+                        background: '#202020',
+                        color: 'white'
+                    },
+
+                });
             }, 1500);
             
         } catch (error) {

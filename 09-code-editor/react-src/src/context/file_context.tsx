@@ -11,6 +11,7 @@ interface SnippetState {
     addSnippetName: (name: string) => void,
     setSnippetNames: (names: string[]) => void
     setSelectedSnippet: (snippet: Snippet | null) => void
+    removeSnippetName: (name: string) => void
 }
 
 const FileContext = createContext<SnippetState>({
@@ -18,7 +19,8 @@ const FileContext = createContext<SnippetState>({
     selectedSnippet: null,
     addSnippetName: name => {},
     setSnippetNames: names => {},
-    setSelectedSnippet: snippet => {}
+    setSelectedSnippet: snippet => {},
+    removeSnippetName: name => {}
 });
 
 const FileProvider: React.FC<React.PropsWithChildren> = ({children}) => {
@@ -30,7 +32,8 @@ const FileProvider: React.FC<React.PropsWithChildren> = ({children}) => {
             selectedSnippet,
             addSnippetName: name => setSnippetNames(state => [...state, name]),
             setSnippetNames: names => setSnippetNames(names),
-            setSelectedSnippet: snippet => setSelectedSnippet(snippet)
+            setSelectedSnippet: snippet => setSelectedSnippet(snippet),
+            removeSnippetName: name => setSnippetNames(state => state.filter(n => n !== name))
         };
     }, [snippetsNames, selectedSnippet]);
 

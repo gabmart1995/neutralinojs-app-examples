@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import SnippetEditor from "./components/SnippetEditor";
 import SnippetForm from "./components/SnippetForm";
 import SnippetList from "./components/SnippetList";
@@ -15,6 +16,7 @@ const App = () => {
                     <SnippetEditor />
                 </div>
             </div>
+            <Toaster />
         </FileProvider>
     )
 };

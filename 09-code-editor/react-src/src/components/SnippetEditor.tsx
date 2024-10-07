@@ -3,6 +3,8 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { FileContext } from '../context/file_context';
 import { extensions, filesystem, os } from '@neutralinojs/lib';
 import { extension } from '../events';
+import {TfiPencil} from 'react-icons/tfi'
+import toast from 'react-hot-toast';
 
 const SnippetEditor = () => {
     const fileContext = useContext(FileContext);
@@ -46,15 +48,57 @@ const SnippetEditor = () => {
 		}
 	}, []);
 
+    /** manejador del teclado del editor */
+    const handleKeyUp: (event: React.KeyboardEvent<HTMLDivElement>) => void = async event => {
+        if (!editorInstance) return;
+        
+        if (event.ctrlKey && event.key === 's') {
+            try {
+                const contentFile = editorInstance.getValue();  
+                const homeDirectory = sessionStorage.getItem('home_directory') ?? '';
+                await extensions.dispatch(
+                    extension, 
+                    'join', 
+                    [homeDirectory, 'neu-files', fileContext.selectedSnippet?.name ?? '']
+                );
+
+                // escribimos los archivos
+                setTimeout(async () => {
+                    const path = sessionStorage.getItem('path') ?? '';
+                    await filesystem.writeFile(path, contentFile);
+                    
+                    // console.log('saved');
+                    
+                   // notificamos al usuario
+                    toast.success('Snippet guardado', {
+                        duration: 2000,
+                        position: 'bottom-right',
+                        style: {
+                            background: '#202020',
+                            color: 'white'
+                        },
+
+                    });
+                }, 1500);
+
+            } catch (error) {
+                console.error(error);
+
+            }
+        }
+    } 
+
     // crea la instancia del editor
     useEffect(() => {
-        // console.log({fileContext, path: sessionStorage.getItem('path')});
+        // console.log({fileContext, editorInstance, value: monacoContainer.current});
 
-        if (!monacoContainer.current || !fileContext.selectedSnippet) return;
+        if (!monacoContainer.current) return;
         
         // crea una instancia del editor
         // sino la actualiza
         if (!editorInstance) {
+            console.log('create editor');
+            
             const editor = monaco.editor.create(monacoContainer.current, {
                 theme: 'vs-dark',
                 language: getLanguageEditor(fileContext.selectedSnippet?.name ?? ''),
@@ -64,7 +108,9 @@ const SnippetEditor = () => {
 
             setEditorInstance(editor);
         
-        } else {
+        } else if (editorInstance && fileContext.selectedSnippet) {
+            console.log('update editor');
+            
             let value = '';
 
             if (fileContext.selectedSnippet) value = fileContext.selectedSnippet.code ?? '';
@@ -84,47 +130,30 @@ const SnippetEditor = () => {
             }            
         }
 
+        // se retorna una funcion que actua al desmontar el componente 
+        return () => {
+            console.log('editor unmount')
+
+            // elimina el contexto del editor
+            // para crear uno nuevo
+            if (editorInstance) editorInstance.dispose();        
+
+            setEditorInstance(null);
+        };
+
     }, [fileContext.selectedSnippet]);
 
-    // efecto para guardar archivo
-    useEffect(() => {
-        if (!editorInstance || !monacoContainer.current) return;
-
-        // anadimos el evento de captura de teclado
-        // salva el archivo Ctrl + S 	
-        monacoContainer.current.addEventListener('keyup', async event => {
-            if (event.ctrlKey && event.key === 's') {
-                try {
-                    const contentFile = editorInstance.getValue();  
-                    const homeDirectory = sessionStorage.getItem('home_directory') ?? '';
-                    await extensions.dispatch(
-                        extension, 
-                        'join', 
-                        [homeDirectory, 'neu-files', fileContext.selectedSnippet?.name ?? '']
-                    );
-
-                    // escribimos los archivos
-                    setTimeout(async () => {
-                        const path = sessionStorage.getItem('path') ?? '';
-                        await filesystem.writeFile(path, contentFile);
-                        
-                        console.log('saved');
-                        
-                        await os.showNotification('exito', 'Archivo guardado con exito');
-                    }, 1500);
-
-                } catch (error) {
-                    console.error(error);
-
-                }
-            }
-        });
-    }, [editorInstance, fileContext]);
-
     // validamos si existe un snippet seleccionado
-    if (!fileContext.selectedSnippet) return (<div>No snippet selected</div>);
+    if (!fileContext.selectedSnippet) return (
+        <TfiPencil className="text-9xl text-neutral-500" />
+    );
         
-    return (<div className="editor" ref={monacoContainer}></div>);
+    return (
+        <div 
+            className="editor" 
+            ref={monacoContainer}
+            onKeyUp={handleKeyUp}
+        ></div>);
 }
 
 export default SnippetEditor;
