@@ -54,6 +54,18 @@ main .request-form {
     display: flex;
 }
 
+.reset-button {
+    background-color: lightgray;
+    color: black;
+    padding: 0.7rem 1rem;
+    outline: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
 main .request-form select {
     background-color: var(--background);
     font-weight: bold;
@@ -116,20 +128,31 @@ main .body-request {
     border: 1px solid var(--color-text);
     border-radius: 5px;
     height: 2rem;
-    padding: 0.3rem 1rem;
+    padding: 1rem;
     font-size: 1rem;
     width: 96%;
     height: 10rem;
 }
 
 main .response-container {
+    display: block;
     color: var(--color-text);
     background-color: var(--background);
     border: 1px solid var(--color-text);
     border-radius: 5px;
-    height: 2rem;
     padding: 0.3rem 1rem;
     font-size: 1rem;
     width: 96%;
-    height: 10rem;
+    min-height: 10rem;
+    text-wrap: wrap;
+}
+
+main .response-container-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main .response-container-title span:last-child {
+    font-size: 1rem;
 }

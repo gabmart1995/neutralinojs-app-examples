@@ -10,7 +10,8 @@ class FormRequestComponent extends HTMLElement {
         [
             {method: 'GET', color: 'green'}, 
             {method: 'POST', color: 'yellow'}, 
-            {method: 'PUT', color: 'blue'}, 
+            {method: 'PUT', color: 'blue'},
+            {method: 'PATCH', color: 'cyan'}, 
             {method: 'DELETE', color: 'red'}
         ]
         .forEach(({method, color}) => {
