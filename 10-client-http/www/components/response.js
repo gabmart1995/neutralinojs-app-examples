@@ -18,7 +18,7 @@ class ResponseComponent extends HTMLElement {
 
         span1.innerText = 'Response:';
         span2.id = 'status';
-        span2.innerText = `status: 0`;
+        span2.innerText = `status code: 0`;
 
         title.appendChild(span1);
         title.appendChild(span2);
@@ -60,7 +60,7 @@ class ResponseComponent extends HTMLElement {
         codeElement.innerText = '';
         codeElement.innerText = this.body;
 
-        spanStatus.innerText = `status: ${this.status}`;
+        spanStatus.innerText = `status code: ${this.status}`;
     }
 
     handleClear() {
@@ -70,7 +70,7 @@ class ResponseComponent extends HTMLElement {
         const codeElement = this.querySelector('pre');
         if (!codeElement) return;
 
-        spanStatus.innerText = `status: 0`;
+        spanStatus.innerText = `status code: 0`;
         codeElement.innerText = ''; 
     }
 }

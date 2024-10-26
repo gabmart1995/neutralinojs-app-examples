@@ -67,11 +67,11 @@ main .request-form {
 }
 
 main .request-form select {
-    background-color: var(--background);
+    /*background-color: var(--background);*/
     font-weight: bold;
     padding: 7px;
     border-radius: 5px;
-    color: var(--color-text);
+    /*color: var(--color-text);*/
 }
 
 main .request-form input {
